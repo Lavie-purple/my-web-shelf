@@ -986,7 +986,10 @@
     const p = S.prefs && S.prefs.density;
     if (DENSITY.includes(p)) return p;
     const def = S.data && S.data.settings && S.data.settings.density;
-    return DENSITY.includes(def) ? def : 'auto';
+    if (DENSITY.includes(def)) return def;
+    // data.json 缺字段、或 CDN 上比 index.html 旧一拍时，用首屏静态属性兜底（由 sync-seed.py 同步）
+    const attr = document.documentElement.getAttribute('data-density');
+    return DENSITY.includes(attr) ? attr : 'auto';
   }
   function applyDensity() {
     const d = currentDensity();
