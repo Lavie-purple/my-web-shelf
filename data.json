@@ -1,0 +1,122 @@
+{
+  "version": 1,
+  "updatedAt": "2026-11-14T10:00:00.000Z",
+  "settings": {
+    "title": "我的在线书架",
+    "subtitle": "把做过的、用过的、收藏过的网页，一本本摆上架子",
+    "owner": "",
+    "screenshotService": "microlink",
+    "refresh": "daily",
+    "skin": "gallery",
+    "note": "预览图由截图服务实时生成，点击卡片跳转到目标网页"
+  },
+  "groups": [
+    {
+      "id": "g-tools",
+      "name": "常用工具",
+      "collapsed": false,
+      "items": [
+        {
+          "id": "i-excalidraw",
+          "title": "Excalidraw 手绘白板",
+          "url": "https://excalidraw.com",
+          "desc": "打开就能画的在线白板，随手理思路、画流程图",
+          "tags": ["白板", "画图"],
+          "mode": "auto",
+          "thumb": "",
+          "addedAt": "2026-11-14"
+        },
+        {
+          "id": "i-fonts",
+          "title": "Google Fonts",
+          "url": "https://fonts.google.com",
+          "desc": "免费可商用的 Web 字体库，挑字体、配字形都在这里",
+          "tags": ["字体", "设计"],
+          "mode": "auto",
+          "thumb": "",
+          "addedAt": "2026-11-14"
+        },
+        {
+          "id": "i-coolors",
+          "title": "Coolors 配色生成器",
+          "url": "https://coolors.co",
+          "desc": "按一下空格换一套配色，也能锁定单色继续调",
+          "tags": ["配色", "设计"],
+          "mode": "auto",
+          "thumb": "",
+          "addedAt": "2026-11-14"
+        }
+      ]
+    },
+    {
+      "id": "g-ai",
+      "name": "AI 与模型评测",
+      "collapsed": false,
+      "items": [
+        {
+          "id": "i-lmarena",
+          "title": "LMArena 竞技场",
+          "url": "https://lmarena.ai",
+          "desc": "人类盲投 pairwise 投票产出的模型排行榜，可看分域排名",
+          "tags": ["大模型", "榜单", "chat"],
+          "mode": "auto",
+          "thumb": "",
+          "addedAt": "2026-11-14"
+        },
+        {
+          "id": "i-aa",
+          "title": "Artificial Analysis",
+          "url": "https://artificialanalysis.ai",
+          "desc": "按质量、速度、价格三维横评模型，智能指数与成本曲线好用",
+          "tags": ["大模型", "榜单", "速度"],
+          "mode": "auto",
+          "thumb": "",
+          "addedAt": "2026-11-14"
+        },
+        {
+          "id": "i-livebench",
+          "title": "LiveBench",
+          "url": "https://livebench.ai",
+          "desc": "用持续更新的题目防污染，考察推理、数学、编程与数据分析",
+          "tags": ["大模型", "榜单", "agent"],
+          "mode": "auto",
+          "thumb": "",
+          "addedAt": "2026-11-14"
+        }
+      ]
+    },
+    {
+      "id": "g-dev",
+      "name": "开发文档",
+      "collapsed": false,
+      "items": [
+        {
+          "id": "i-mdn",
+          "title": "MDN Web Docs",
+          "url": "https://developer.mozilla.org",
+          "desc": "HTML / CSS / JavaScript 的权威参考与教程",
+          "tags": ["前端", "文档"],
+          "mode": "auto",
+          "thumb": "",
+          "addedAt": "2026-11-14"
+        },
+        {
+          "id": "i-github",
+          "title": "GitHub",
+          "url": "https://github.com",
+          "desc": "代码仓库与 Pages 托管，本站就住在上面",
+          "tags": ["代码", "托管"],
+          "mode": "auto",
+          "thumb": "",
+          "addedAt": "2026-11-14"
+        }
+      ]
+    },
+    {
+      "id": "g-works",
+      "name": "作品与项目",
+      "collapsed": false,
+      "items": []
+    }
+  ]
+}

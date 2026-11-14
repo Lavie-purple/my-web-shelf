@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>选一套外观 · 在线书架</title>
+<style>
+  :root {
+    --bg: #f5f6f8;
+    --card: #ffffff;
+    --ink: #161b26;
+    --ink-2: #4d5668;
+    --muted: #8b93a3;
+    --line: #e3e6ed;
+    --accent: #4f57e3;
+    --accent-soft: #eef0ff;
+    --radius: 16px;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; color: var(--ink); background: var(--bg);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", system-ui, sans-serif;
+    font-size: 14px; line-height: 1.65;
+    background-image: radial-gradient(circle at 12% 0%, rgba(79, 87, 227, .06), transparent 40%);
+  }
+  .wrap { width: min(1600px, calc(100% - 48px)); margin-inline: auto; }
+  a { color: inherit; }
+
+  .top {
+    position: sticky; top: 0; z-index: 10;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--line);
+  }
+  .top__in { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 0; flex-wrap: wrap; }
+  .top__brand { display: flex; align-items: baseline; gap: 12px; font-weight: 700; }
+  .top__brand small { font-weight: 500; color: var(--muted); font-size: 12px; }
+  .top__acts { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+    min-height: 34px; padding: 0 14px; border: 1px solid var(--line); border-radius: 9px;
+    background: var(--card); color: var(--ink); font: inherit; font-size: 12.5px; font-weight: 600;
+    text-decoration: none; cursor: pointer; white-space: nowrap;
+    transition: transform .16s, border-color .16s, background-color .16s, box-shadow .16s;
+  }
+  .btn:hover { border-color: var(--accent); box-shadow: 0 4px 14px -8px rgba(79, 87, 227, .6); }
+  .btn:active { transform: scale(.97); }
+  .btn--primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .btn--primary:hover { background: #3f46cc; border-color: #3f46cc; color: #fff; }
+  .btn--ghost { background: transparent; }
+
+  .hero { padding: 46px 0 26px; }
+  .hero__eyebrow { margin: 0 0 10px; font-size: 11px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--accent); }
+  .hero h1 { margin: 0 0 12px; font-size: clamp(28px, 3.2vw, 44px); line-height: 1.2; letter-spacing: -.03em; }
+  .hero p { margin: 0; max-width: 760px; color: var(--ink-2); font-size: 15px; }
+  .status {
+    display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    margin-top: 22px; padding: 11px 15px; border: 1px solid var(--line); border-radius: 11px;
+    background: var(--card); font-size: 12.5px; color: var(--ink-2);
+  }
+  .status strong { color: var(--ink); }
+  .status__spacer { flex: 1; }
+
+  .grid { display: grid; grid-template-columns: 1fr; gap: 26px; padding: 16px 0 60px; }
+  @media (min-width: 1500px) { .grid { grid-template-columns: 1fr 1fr; gap: 30px; } }
+
+  .skin {
+    position: relative; display: flex; flex-direction: column;
+    border: 1px solid var(--line); border-radius: var(--radius); background: var(--card);
+    overflow: hidden; box-shadow: 0 12px 34px -26px rgba(20, 28, 48, .5);
+    transition: box-shadow .2s, border-color .2s;
+  }
+  .skin:hover { box-shadow: 0 20px 48px -28px rgba(20, 28, 48, .55); }
+  .skin.is-current { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft), 0 20px 48px -28px rgba(20, 28, 48, .4); }
+  .skin__badge {
+    position: absolute; z-index: 2; top: 14px; right: 14px; display: none;
+    padding: 4px 10px; border-radius: 20px; background: var(--accent); color: #fff;
+    font-size: 11px; font-weight: 700; letter-spacing: .02em;
+  }
+  .skin.is-current .skin__badge { display: block; }
+  .skin__head { padding: 20px 22px 16px; }
+  .skin__no { font-size: 11px; font-weight: 700; letter-spacing: .16em; color: var(--muted); }
+  .skin__title { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin: 3px 0 6px; }
+  .skin__title h2 { margin: 0; font-size: 22px; letter-spacing: -.02em; }
+  .skin__title code { font-size: 11.5px; color: var(--muted); font-family: ui-monospace, Consolas, monospace; }
+  .skin__desc { margin: 0 0 12px; color: var(--ink-2); font-size: 13px; }
+  .tags { display: flex; gap: 6px; flex-wrap: wrap; }
+  .tag { padding: 2px 9px; border: 1px solid var(--line); border-radius: 20px; background: var(--bg); color: var(--ink-2); font-size: 11px; }
+  .skin__shot {
+    display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; object-position: top left;
+    border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: #eee;
+  }
+  .skin__foot { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; padding: 14px 22px 18px; }
+  .skin__hint { flex: 1; min-width: 140px; color: var(--muted); font-size: 11.5px; }
+
+  .pick {
+    margin: 0 0 64px; padding: 24px 26px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--card);
+  }
+  .pick h2 { margin: 0 0 14px; font-size: 18px; }
+  .pick__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 18px; }
+  .pick h3 { margin: 0 0 5px; font-size: 13.5px; }
+  .pick p { margin: 0; font-size: 12.5px; color: var(--ink-2); }
+  .pick code { padding: 1px 5px; border-radius: 4px; background: var(--bg); border: 1px solid var(--line); font-size: 11.5px; }
+  .footer { padding: 0 0 50px; color: var(--muted); font-size: 12px; }
+  @media (max-width: 620px) { .wrap { width: calc(100% - 24px); } .hero { padding-top: 28px; } }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap top__in">
+    <div class="top__brand">外观样式台 <small>同一份数据，五种皮肤</small></div>
+    <div class="top__acts">
+      <button type="button" class="btn btn--ghost" id="reset">恢复跟随站点</button>
+      <a class="btn btn--primary" href="index.html">返回书架</a>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <section class="hero">
+    <p class="hero__eyebrow">STYLE PREVIEW</p>
+    <h1>挑一套你看着顺眼的外观</h1>
+    <p>下面五套是同一个站点、同一份数据的真实渲染截图，功能完全一样：实时截图封面、点图跳转、拖拽排序、分组折叠、5K 宽屏适配都保留，只是换了一层皮。每张图下面可以「本机试用」实际点一点，也可以开新标签看实时效果。</p>
+    <div class="status">
+      <span>你当前的选择：<strong id="curSkin">跟随站点</strong></span>
+      <span class="status__spacer"></span>
+      <span>站长在「管理书架 → 站点设置 → 站点默认外观」里指定全站默认</span>
+    </div>
+  </section>
+
+  <main class="grid" id="grid">
+
+    <article class="skin" data-skin="wood">
+      <span class="skin__badge">当前使用</span>
+      <div class="skin__head">
+        <div class="skin__no">00 / 原始版本</div>
+        <div class="skin__title"><h2>实木书架</h2><code>wood</code></div>
+        <p class="skin__desc">木纹侧板、实木层板、带书脊的卡片，拟物感最强，有「收藏实体书」的实感。留作对照。</p>
+        <div class="tags"><span class="tag">拟物质感</span><span class="tag">书脊与层板</span><span class="tag">暖木色</span><span class="tag">可切胡桃木深色</span></div>
+      </div>
+      <img class="skin__shot" src="docs/skins/wood.jpg" alt="实木书架风格预览" loading="lazy">
+      <div class="skin__foot">
+        <span class="skin__hint">温暖、有收藏感，但装饰偏重</span>
+        <button type="button" class="btn" data-try="wood">本机试用</button>
+        <a class="btn" href="index.html?skin=wood" target="_blank" rel="noopener">实时预览</a>
+      </div>
+    </article>
+
+    <article class="skin" data-skin="gallery">
+      <span class="skin__badge">当前使用</span>
+      <div class="skin__head">
+        <div class="skin__no">01 / 推荐给作品展示</div>
+        <div class="skin__title"><h2>极简画廊</h2><code>gallery</code></div>
+        <p class="skin__desc">冷白底、大圆角、细线分隔、靛蓝点缀，卡片像现代作品集。截图封面是绝对主角，最百搭也最耐看。</p>
+        <div class="tags"><span class="tag">白底圆角</span><span class="tag">轻投影</span><span class="tag">靛蓝点缀</span><span class="tag">支持明暗切换</span></div>
+      </div>
+      <img class="skin__shot" src="docs/skins/gallery.jpg" alt="极简画廊风格预览" loading="lazy">
+      <div class="skin__foot">
+        <span class="skin__hint">最稳妥，适合以展示为主</span>
+        <button type="button" class="btn" data-try="gallery">本机试用</button>
+        <a class="btn" href="index.html?skin=gallery" target="_blank" rel="noopener">实时预览</a>
+      </div>
+    </article>
+
+    <article class="skin" data-skin="glass">
+      <span class="skin__badge">当前使用</span>
+      <div class="skin__head">
+        <div class="skin__no">02 / 推荐给 AI 与工具收藏</div>
+        <div class="skin__title"><h2>暗夜玻璃</h2><code>glass</code></div>
+        <p class="skin__desc">深蓝黑底、蓝紫青双色光晕、毛玻璃卡片、发光分隔线。科技感最强，自带深色配色。</p>
+        <div class="tags"><span class="tag">毛玻璃</span><span class="tag">环境光晕</span><span class="tag">青色高光</span><span class="tag">固定深色</span></div>
+      </div>
+      <img class="skin__shot" src="docs/skins/glass.jpg" alt="暗夜玻璃风格预览" loading="lazy">
+      <div class="skin__foot">
+        <span class="skin__hint">白色封面在深底上对比强</span>
+        <button type="button" class="btn" data-try="glass">本机试用</button>
+        <a class="btn" href="index.html?skin=glass" target="_blank" rel="noopener">实时预览</a>
+      </div>
+    </article>
+
+    <article class="skin" data-skin="editorial">
+      <span class="skin__badge">当前使用</span>
+      <div class="skin__head">
+        <div class="skin__no">03 / 推荐给主题编排</div>
+        <div class="skin__title"><h2>杂志纸刊</h2><code>editorial</code></div>
+        <p class="skin__desc">米白纸感、衬线大标题、01 / 02 章节编号、细横线、无边框卡片。偏阅读与出版物，适合带说明文字的收藏。</p>
+        <div class="tags"><span class="tag">衬线排版</span><span class="tag">章节编号</span><span class="tag">纸感底色</span><span class="tag">支持明暗切换</span></div>
+      </div>
+      <img class="skin__shot" src="docs/skins/editorial.jpg" alt="杂志纸刊风格预览" loading="lazy">
+      <div class="skin__foot">
+        <span class="skin__hint">文字存在感最强，图文并茂</span>
+        <button type="button" class="btn" data-try="editorial">本机试用</button>
+        <a class="btn" href="index.html?skin=editorial" target="_blank" rel="noopener">实时预览</a>
+      </div>
+    </article>
+
+    <article class="skin" data-skin="terminal">
+      <span class="skin__badge">当前使用</span>
+      <div class="skin__head">
+        <div class="skin__no">04 / 推荐给开发者</div>
+        <div class="skin__title"><h2>复古终端</h2><code>terminal</code></div>
+        <p class="skin__desc">深墨绿、等宽字、方括号分组、直角虚线、荧绿高光，封面略降饱和。最有性格的一套，信息密度高。</p>
+        <div class="tags"><span class="tag">等宽字体</span><span class="tag">扫描线纹理</span><span class="tag">荧绿高光</span><span class="tag">固定深色</span></div>
+      </div>
+      <img class="skin__shot" src="docs/skins/terminal.jpg" alt="复古终端风格预览" loading="lazy">
+      <div class="skin__foot">
+        <span class="skin__hint">风格强烈，长期看略费眼</span>
+        <button type="button" class="btn" data-try="terminal">本机试用</button>
+        <a class="btn" href="index.html?skin=terminal" target="_blank" rel="noopener">实时预览</a>
+      </div>
+    </article>
+
+  </main>
+
+  <section class="pick">
+    <h2>怎么选，以及怎么生效</h2>
+    <div class="pick__grid">
+      <div>
+        <h3>① 本机试用</h3>
+        <p>点任意一张的「本机试用」，或直接在书架统计行用「风格」下拉切换。只存在你这台浏览器，不写进仓库，别人看不到。</p>
+      </div>
+      <div>
+        <h3>② 网址临时预览</h3>
+        <p>网址后加 <code>?skin=glass</code> 可以指定外观，适合存书签或截图。可用值：<code>wood</code> <code>gallery</code> <code>glass</code> <code>editorial</code> <code>terminal</code>。</p>
+      </div>
+      <div>
+        <h3>③ 设为全站默认</h3>
+        <p>「管理书架 → 站点设置 → 站点默认外观」里选好，保存后导出或推送 <code>data.json</code>。再跑一次 <code>python tools/sync-seed.py</code>，把首屏皮肤同步进 <code>index.html</code>，访客就不会先闪一下旧样式。</p>
+      </div>
+      <div>
+        <h3>④ 访客可自行覆盖</h3>
+        <p>全站默认只是「默认值」，访客仍能用统计行的下拉换成自己喜欢的；选「跟随站点」即回到你设定的默认。</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">五张预览图均为本站点在 1600px 视口下的真实渲染截图，放在 docs/skins/ 下，站点运行本身不需要它们。</footer>
+</div>
+
+<script>
+  (function () {
+    var KEY = 'onlineshelf:prefs:v1';
+    // file:// 双击时读不到 data.json，用这个常量兜底；改了站点默认请同步改这里
+    var SITE_DEFAULT = 'gallery';
+    var LABEL = { auto: '跟随站点', wood: '实木书架', gallery: '极简画廊', glass: '暗夜玻璃', editorial: '杂志纸刊', terminal: '复古终端' };
+    var prefs = {};
+    try { prefs = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { prefs = {}; }
+    var cur = (LABEL[prefs.skin] && prefs.skin !== 'auto') ? prefs.skin : null;
+
+    function paint(siteDefault) {
+      var effective = cur || siteDefault;
+      document.getElementById('curSkin').textContent = cur
+        ? LABEL[cur]
+        : '跟随站点（' + (LABEL[effective] || siteDefault) + '）';
+      Array.prototype.forEach.call(document.querySelectorAll('.skin'), function (card) {
+        card.classList.remove('is-current');
+        if (card.getAttribute('data-skin') === effective) {
+          card.classList.add('is-current');
+          var b = card.querySelector('.skin__badge');
+          if (b) b.textContent = cur ? '当前使用' : '站点默认';
+        }
+      });
+    }
+    paint(SITE_DEFAULT);
+    if (location.protocol !== 'file:') {
+      fetch('./data.json', { cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (d) {
+          var s = d && d.settings && d.settings.skin;
+          if (s && LABEL[s] && s !== 'auto') paint(s);
+        })
+        .catch(function () { /* 取不到就用常量 */ });
+    }
+
+    function save(skin, go) {
+      prefs.skin = skin;
+      try { localStorage.setItem(KEY, JSON.stringify(prefs)); } catch (e) { /* 隐私模式 */ }
+      if (go) location.href = 'index.html';
+      else location.reload();
+    }
+    Array.prototype.forEach.call(document.querySelectorAll('[data-try]'), function (btn) {
+      btn.addEventListener('click', function () { save(btn.getAttribute('data-try'), true); });
+    });
+    document.getElementById('reset').addEventListener('click', function () { save('auto', false); });
+  })();
+</script>
+</body>
+</html>

@@ -1,0 +1,378 @@
+/* ============================================================
+   在线书架 · 外观皮肤
+   在 app.css 之后加载。所有皮肤都只靠 CSS 变量与组件覆写实现，
+   不改 DOM、不改 JS、不影响 5K 分档与手动密度。
+
+   优先级：?skin= 网址参数 > 访客本机选择 > data.json 里的站点默认
+   皮肤变量写在 body[data-skin] 上，特异性高于 body[data-theme]，
+   因此「暗夜玻璃 / 复古终端」这类自带深色的皮肤不会被明暗按钮冲掉。
+   ============================================================ */
+
+/* ---------- 通用：脱掉木质外壳 ----------
+   除 wood 外的皮肤都去掉木侧板、书脊、木纹层板与纸纹背景，
+   只保留「分组一层」的结构语义 */
+body[data-skin]:not([data-skin="wood"]) {
+  background-image: none;
+}
+body[data-skin]:not([data-skin="wood"]) .cabinet {
+  border-radius: 0;
+  box-shadow: none;
+}
+body[data-skin]:not([data-skin="wood"]) .cabinet::before,
+body[data-skin]:not([data-skin="wood"]) .cabinet::after { display: none; }
+body[data-skin]:not([data-skin="wood"]) .book__spine { display: none; }
+body[data-skin]:not([data-skin="wood"]) .book__inner { margin-left: 0; }
+body[data-skin]:not([data-skin="wood"]) .shelf__board::after { display: none; }
+body[data-skin]:not([data-skin="wood"]) .book:hover { transform: translateY(-6px); }
+body[data-skin]:not([data-skin="wood"]) .book:active { transform: translateY(-2px) scale(.99); }
+body[data-skin]:not([data-skin="wood"]) .brand__mark { box-shadow: none; }
+body[data-skin]:not([data-skin="wood"]) .shelf__name { box-shadow: none; }
+
+/* ============================================================
+   A · 极简画廊  gallery
+   冷白底、细线、大圆角、克制的靛蓝点缀。最像现代作品集 / SaaS 官网，
+   截图封面是绝对主角，适合以「展示作品」为主的书架。
+   ============================================================ */
+body[data-skin="gallery"] {
+  --bg: #f6f7fa;
+  --bg-soft: #eef1f6;
+  --surface: #ffffff;
+  --surface-2: #f0f2f7;
+  --ink: #141925;
+  --ink-2: #4c566b;
+  --muted: #8b95a8;
+  --line: #e2e6ee;
+  --accent: #4f57e3;
+  --accent-soft: #eef0ff;
+  --accent-ink: #ffffff;
+  --danger: #d0455b;
+  --radius: calc(14px * var(--k));
+  --board-h: calc(2px * var(--k));
+  --cabinet-pad: calc(8px * var(--k));
+  --shadow-sm: 0 1px 3px rgba(20, 28, 48, .06);
+  --shadow-md: 0 10px 26px -14px rgba(20, 28, 48, .28);
+  --shadow-lg: 0 30px 70px -24px rgba(20, 28, 48, .34);
+  background-image:
+    radial-gradient(circle at 15% -5%, rgba(79, 87, 227, .055), transparent 42%),
+    radial-gradient(circle at 88% 0%, rgba(56, 189, 248, .05), transparent 36%);
+}
+body[data-skin="gallery"][data-theme="dark"] {
+  --bg: #0e1119;
+  --bg-soft: #141926;
+  --surface: #191e2b;
+  --surface-2: #222838;
+  --ink: #eef1f8;
+  --ink-2: #b0bad0;
+  --muted: #7d88a0;
+  --line: #2b3244;
+  --accent: #8d93ff;
+  --accent-soft: #242a4a;
+  --accent-ink: #10131f;
+  --danger: #ff7f95;
+  --shadow-md: 0 12px 28px -14px rgba(0, 0, 0, .8);
+  --shadow-lg: 0 30px 70px -24px rgba(0, 0, 0, .85);
+}
+body[data-skin="gallery"] .topbar { background: color-mix(in srgb, var(--bg) 88%, transparent); }
+body[data-skin="gallery"] .brand__mark { background: linear-gradient(145deg, #6a71f5, #3b42c4); border-radius: var(--radius); }
+body[data-skin="gallery"] .brand h1 { font-family: inherit; letter-spacing: -.035em; }
+body[data-skin="gallery"] .brand__eyebrow { color: var(--accent); }
+body[data-skin="gallery"] .meta__num { font-family: inherit; letter-spacing: -.03em; }
+body[data-skin="gallery"] .cabinet { background: transparent; padding-inline: 0; }
+body[data-skin="gallery"] .shelf__head { padding: calc(30px * var(--k)) 2px calc(16px * var(--k)); }
+body[data-skin="gallery"] .shelf__name {
+  padding: 0 0 0 calc(12px * var(--k)); border: 0; border-left: 3px solid var(--accent);
+  border-radius: 0; background: transparent; font-size: calc(15px * var(--k)); letter-spacing: -.01em;
+}
+body[data-skin="gallery"] .shelf__books { padding-inline: 0; gap: calc(var(--shelf-gap) * .92); }
+body[data-skin="gallery"] .shelf__board {
+  margin-top: calc(22px * var(--k)); background: var(--line); border-radius: 2px; box-shadow: none;
+}
+body[data-skin="gallery"] .book__inner {
+  padding: calc(8px * var(--k)); border: 1px solid var(--line); border-radius: var(--radius);
+  background: var(--surface); box-shadow: var(--shadow-md);
+}
+body[data-skin="gallery"] .book:hover .book__inner { box-shadow: 0 22px 40px -18px rgba(20, 28, 48, .34); }
+body[data-skin="gallery"] .cover { border-radius: calc(9px * var(--k)); border-color: transparent; }
+body[data-skin="gallery"] .book__tag { border-radius: 20px; }
+body[data-skin="gallery"] .btn { border-radius: var(--radius); }
+body[data-skin="gallery"] .btn--primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+body[data-skin="gallery"] .btn--primary:hover { background: var(--ink); border-color: var(--ink); }
+body[data-skin="gallery"] .cover__fallback { background: linear-gradient(145deg, #eef0fb, #dfe6f8); color: #3b4275; }
+body[data-skin="gallery"][data-theme="dark"] .cover__fallback { background: linear-gradient(145deg, #252c45, #1a2036); color: #aab4ee; }
+body[data-skin="gallery"] .shelf:not(.is-collapsed):has(.book)::after { color: color-mix(in srgb, var(--muted) 24%, transparent); font-family: inherit; letter-spacing: .1em; }
+body[data-skin="gallery"] .editbar { border-radius: var(--radius); }
+
+/* ============================================================
+   B · 暗夜玻璃  glass
+   深蓝黑 + 双色光斑 + 毛玻璃卡片，青色高光。科技感最强，
+   适合 AI / 开发工具 / 极客收藏；自带深色，不受明暗按钮影响。
+   ============================================================ */
+body[data-skin="glass"] {
+  --bg: #080c1a;
+  --bg-soft: #101731;
+  --surface: rgba(255, 255, 255, .055);
+  --surface-2: rgba(255, 255, 255, .1);
+  --ink: #eef3ff;
+  --ink-2: #b2bfdd;
+  --muted: #7c8ab0;
+  --line: rgba(150, 175, 255, .17);
+  --accent: #69e8f2;
+  --accent-soft: rgba(105, 232, 242, .13);
+  --accent-ink: #04161b;
+  --danger: #ff7f9b;
+  --radius: calc(16px * var(--k));
+  --board-h: calc(1px * var(--k));
+  --cabinet-pad: calc(8px * var(--k));
+  --shadow-sm: 0 2px 10px rgba(0, 0, 0, .3);
+  --shadow-md: 0 14px 34px -16px rgba(0, 0, 0, .85);
+  --shadow-lg: 0 30px 80px -24px rgba(0, 0, 0, .9);
+  background-color: #080c1a;
+  background-image:
+    radial-gradient(ellipse 55% 46% at 10% 2%, rgba(94, 92, 255, .42), transparent 72%),
+    radial-gradient(ellipse 48% 42% at 90% 10%, rgba(20, 184, 210, .34), transparent 72%),
+    radial-gradient(ellipse 66% 52% at 50% 105%, rgba(126, 58, 210, .22), transparent 76%),
+    linear-gradient(180deg, rgba(24, 36, 82, .5), transparent 55%);
+  background-attachment: fixed;
+}
+body[data-skin="glass"] .topbar {
+  background: rgba(9, 13, 28, .66); border-bottom-color: rgba(150, 175, 255, .13);
+}
+body[data-skin="glass"] .search,
+body[data-skin="glass"] .density,
+body[data-skin="glass"] .btn,
+body[data-skin="glass"] .shelf__name { background: var(--surface); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+body[data-skin="glass"] .btn:hover { background: var(--surface-2); }
+body[data-skin="glass"] .btn--primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); font-weight: 700; }
+body[data-skin="glass"] .btn--primary:hover { background: #a5f4fa; border-color: #a5f4fa; color: var(--accent-ink); }
+body[data-skin="glass"] .brand__mark {
+  background: linear-gradient(145deg, #5b6cff, #27c8da);
+  box-shadow: 0 0 22px rgba(80, 200, 240, .35); border-radius: var(--radius); color: #061226;
+}
+body[data-skin="glass"] .brand h1 { font-family: inherit; letter-spacing: -.035em; }
+body[data-skin="glass"] .brand__eyebrow { color: var(--accent); }
+body[data-skin="glass"] .meta__num { font-family: inherit; color: var(--accent); }
+body[data-skin="glass"] .cabinet { background: transparent; padding-inline: 0; }
+body[data-skin="glass"] .shelf__head { padding: calc(30px * var(--k)) 2px calc(16px * var(--k)); }
+body[data-skin="glass"] .shelf__name {
+  border: 1px solid rgba(105, 232, 242, .28); border-radius: 20px; color: var(--accent);
+  font-size: calc(12.5px * var(--k)); letter-spacing: .02em;
+}
+body[data-skin="glass"] .shelf__books { padding-inline: 0; }
+body[data-skin="glass"] .shelf__board {
+  margin-top: calc(22px * var(--k));
+  background: linear-gradient(90deg, transparent, rgba(105, 232, 242, .5), rgba(120, 130, 255, .38), transparent);
+  box-shadow: 0 0 14px rgba(90, 200, 240, .2);
+}
+body[data-skin="glass"] .book__inner {
+  padding: calc(8px * var(--k)); border: 1px solid var(--line); border-radius: var(--radius);
+  background: linear-gradient(155deg, rgba(255, 255, 255, .09), rgba(255, 255, 255, .025));
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .12), var(--shadow-md);
+}
+body[data-skin="glass"] .book:hover .book__inner {
+  border-color: rgba(105, 232, 242, .5);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .16), 0 20px 44px -18px rgba(60, 200, 240, .45);
+}
+body[data-skin="glass"] .cover { border-radius: calc(10px * var(--k)); border-color: rgba(255, 255, 255, .1); }
+body[data-skin="glass"] .cover__img, body[data-skin="glass"] .cover__frame iframe { filter: brightness(.93) saturate(1.05); }
+body[data-skin="glass"] .cover__fallback { background: linear-gradient(145deg, #1d2550, #10283c); color: #8ee8f2; }
+body[data-skin="glass"] .cover__loading { background-image: linear-gradient(100deg, transparent 20%, rgba(160, 220, 255, .12) 50%, transparent 80%); }
+body[data-skin="glass"] .book__tag { border: 1px solid var(--line); background: transparent; }
+body[data-skin="glass"] .book__url { color: var(--accent); }
+body[data-skin="glass"] .modal { background: #121a30; }
+body[data-skin="glass"] .modal::backdrop { background: rgba(3, 6, 16, .72); }
+body[data-skin="glass"] .modal__foot { background: rgba(255, 255, 255, .03); }
+body[data-skin="glass"] .modal__note { background: var(--accent-soft); }
+body[data-skin="glass"] .field input, body[data-skin="glass"] .field select, body[data-skin="glass"] .field textarea, body[data-skin="glass"] .check { background: rgba(4, 8, 20, .55); }
+body[data-skin="glass"] .toast { background: var(--accent); color: #04161b; }
+body[data-skin="glass"] .shelf:not(.is-collapsed):has(.book)::after { color: rgba(140, 200, 255, .12); font-family: inherit; }
+body[data-skin="glass"] .editbar { border-style: solid; border-color: rgba(105, 232, 242, .35); }
+
+/* ============================================================
+   C · 杂志纸刊  editorial
+   米白纸感、衬线大标题、编号分组、细横线、零边框卡片。
+   偏「阅读 / 出版物」，适合带说明文字、按主题编排的收藏。
+   ============================================================ */
+body[data-skin="editorial"] {
+  --serif: Georgia, "Songti SC", "STSong", "SimSun", serif;
+  --bg: #f7f4ec;
+  --bg-soft: #efeae0;
+  --surface: #fdfbf5;
+  --surface-2: #ece5d8;
+  --ink: #1b1915;
+  --ink-2: #504a3f;
+  --muted: #8b8171;
+  --line: #d8ceba;
+  --accent: #9b3b28;
+  --accent-soft: #f1e5dc;
+  --accent-ink: #fffaf4;
+  --danger: #a23a28;
+  --radius: calc(2px * var(--k));
+  --board-h: calc(1px * var(--k));
+  --cabinet-pad: calc(6px * var(--k));
+  --shadow-sm: none;
+  --shadow-md: none;
+  --shadow-lg: 0 24px 60px -28px rgba(60, 44, 20, .45);
+  background-image: repeating-linear-gradient(0deg, rgba(120, 100, 70, .018) 0 1px, transparent 1px 5px);
+}
+body[data-skin="editorial"][data-theme="dark"] {
+  --bg: #17150f;
+  --bg-soft: #201d15;
+  --surface: #1e1b14;
+  --surface-2: #2a251b;
+  --ink: #f0e8d6;
+  --ink-2: #c2b69d;
+  --muted: #928671;
+  --line: #3b3427;
+  --accent: #dd9075;
+  --accent-soft: #35261d;
+  --accent-ink: #1a120c;
+}
+body[data-skin="editorial"] .topbar { background: color-mix(in srgb, var(--bg) 92%, transparent); border-bottom: 2px solid var(--ink); }
+body[data-skin="editorial"] .brand__mark { display: none; }
+body[data-skin="editorial"] .brand h1 { font-family: var(--serif); font-size: calc(28px * var(--k)); font-weight: 400; letter-spacing: .01em; }
+body[data-skin="editorial"] .brand__eyebrow { font-family: var(--serif); font-size: calc(10px * var(--k)); letter-spacing: .24em; color: var(--accent); }
+body[data-skin="editorial"] .brand__sub { font-family: var(--serif); font-style: normal; }
+body[data-skin="editorial"] .btn { border-radius: 0; font-weight: 600; }
+body[data-skin="editorial"] .btn--primary { background: var(--ink); border-color: var(--ink); }
+body[data-skin="editorial"] .search, body[data-skin="editorial"] .density { border-radius: 0; }
+body[data-skin="editorial"] .cabinet {
+  background: transparent; padding-inline: 0;
+  border-left: 1px solid var(--line); border-right: 1px solid var(--line);
+  counter-reset: shelf;
+}
+body[data-skin="editorial"] .shelf { counter-increment: shelf; }
+body[data-skin="editorial"] .shelf__head {
+  padding: calc(30px * var(--k)) calc(12px * var(--k)) calc(14px * var(--k));
+  border-bottom: 1px solid var(--line);
+}
+body[data-skin="editorial"] .shelf__head::before {
+  content: counter(shelf, decimal-leading-zero);
+  font-family: var(--serif); font-size: calc(12px * var(--k)); color: var(--accent); letter-spacing: .1em;
+}
+body[data-skin="editorial"] .shelf__toggle { order: 0; }
+body[data-skin="editorial"] .shelf__name {
+  padding: 0; border: 0; background: transparent;
+  font-family: var(--serif); font-size: calc(21px * var(--k)); font-weight: 400; letter-spacing: .01em;
+  color: var(--ink);
+}
+body[data-skin="editorial"] .shelf__count { font-family: var(--serif); font-style: normal; }
+body[data-skin="editorial"] .shelf__books { padding: calc(18px * var(--k)) calc(12px * var(--k)) 0; }
+body[data-skin="editorial"] .shelf__board {
+  margin: calc(20px * var(--k)) 0 0; background: var(--line); border-radius: 0; box-shadow: none;
+}
+body[data-skin="editorial"] .book__inner {
+  padding: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none;
+}
+body[data-skin="editorial"] .book:hover .book__inner { box-shadow: none; }
+body[data-skin="editorial"] .cover { border-radius: 0; border-color: var(--line); }
+body[data-skin="editorial"] .cover__fallback { background: linear-gradient(145deg, #e9e0ce, #d9cfb8); color: #5b4932; }
+body[data-skin="editorial"][data-theme="dark"] .cover__fallback { background: linear-gradient(145deg, #30291c, #241f16); color: #c9b58c; }
+body[data-skin="editorial"] .book__meta { padding-top: calc(11px * var(--k)); }
+body[data-skin="editorial"] .book__title { font-family: var(--serif); font-size: calc(15px * var(--k)); font-weight: 400; line-height: 1.35; }
+body[data-skin="editorial"] .book__url { font-size: calc(10px * var(--k)); letter-spacing: .05em; text-transform: uppercase; }
+body[data-skin="editorial"] .book__desc { font-family: var(--serif); font-size: calc(11.5px * var(--k)); }
+body[data-skin="editorial"] .book__tag { border: 1px solid var(--line); border-radius: 0; background: transparent; }
+body[data-skin="editorial"] .meta__num { font-family: var(--serif); font-weight: 400; }
+body[data-skin="editorial"] .footer { border-top: 2px solid var(--ink); }
+body[data-skin="editorial"] .shelf:not(.is-collapsed):has(.book)::after { font-family: var(--serif); font-style: normal; letter-spacing: .04em; color: color-mix(in srgb, var(--muted) 22%, transparent); }
+body[data-skin="editorial"] .editbar { border-radius: 0; background: transparent; }
+
+/* ============================================================
+   D · 复古终端  terminal
+   深墨绿、等宽字、直角虚线、荧绿高光，封面略降饱和。
+   最有性格的一套；信息密度高、偏工具控 / 开发者。
+   ============================================================ */
+body[data-skin="terminal"] {
+  --mono: ui-monospace, "Cascadia Code", "Cascadia Mono", Consolas, "SFMono-Regular", "Courier New", monospace;
+  --bg: #080d0a;
+  --bg-soft: #0d150f;
+  --surface: #0e1811;
+  --surface-2: #16241a;
+  --ink: #dcfade;
+  --ink-2: #a9ddb6;
+  --muted: #79ad86;
+  --line: #26402d;
+  --accent: #79f5a2;
+  --accent-soft: #142b1b;
+  --accent-ink: #051009;
+  --danger: #ff9a70;
+  --radius: 0px;
+  --board-h: calc(1px * var(--k));
+  --cabinet-pad: calc(10px * var(--k));
+  --shadow-sm: none;
+  --shadow-md: 0 0 0 1px rgba(121, 245, 162, .05);
+  --shadow-lg: 0 24px 60px -24px rgba(0, 0, 0, .9);
+  font-family: var(--mono);
+  font-size: calc(14px * var(--k));
+  letter-spacing: .01em;
+  background-image:
+    radial-gradient(ellipse 70% 50% at 50% 0%, rgba(60, 190, 100, .09), transparent 75%),
+    repeating-linear-gradient(0deg, rgba(120, 245, 160, .022) 0 1px, transparent 1px 3px);
+}
+body[data-skin="terminal"] .topbar { background: rgba(8, 13, 10, .9); border-bottom: 1px solid var(--line); }
+body[data-skin="terminal"] .brand__mark {
+  background: transparent; border: 1px solid var(--accent); color: var(--accent); border-radius: 0;
+  box-shadow: inset 0 0 12px rgba(121, 245, 162, .12);
+}
+body[data-skin="terminal"] .brand h1 { font-family: var(--mono); font-size: calc(20px * var(--k)); font-weight: 600; letter-spacing: 0; }
+body[data-skin="terminal"] .brand h1::before { content: "> "; color: var(--accent); }
+body[data-skin="terminal"] .brand__eyebrow { font-family: var(--mono); letter-spacing: .12em; color: var(--accent); }
+body[data-skin="terminal"] .brand__sub::before { content: "// "; color: var(--muted); }
+body[data-skin="terminal"] .btn, body[data-skin="terminal"] .search, body[data-skin="terminal"] .density { border-radius: 0; }
+body[data-skin="terminal"] .btn { font-weight: 600; }
+body[data-skin="terminal"] .btn--primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+body[data-skin="terminal"] .btn--primary:hover { background: #b0ffc9; border-color: #b0ffc9; color: var(--accent-ink); }
+body[data-skin="terminal"] .meta__num { font-family: var(--mono); color: var(--accent); }
+body[data-skin="terminal"] .wide-badge, body[data-skin="terminal"] .draft-badge { border-radius: 0; }
+body[data-skin="terminal"] .cabinet {
+  background: rgba(10, 20, 13, .5); padding-inline: calc(12px * var(--k));
+  border: 1px dashed var(--line);
+  box-shadow: inset 0 0 60px rgba(60, 200, 110, .03);
+}
+body[data-skin="terminal"] .shelf__head { padding: calc(24px * var(--k)) 2px calc(12px * var(--k)); }
+body[data-skin="terminal"] .shelf__name {
+  border: 0; border-radius: 0; background: transparent; padding: 0;
+  color: var(--accent); font-size: calc(13px * var(--k)); letter-spacing: .04em;
+}
+body[data-skin="terminal"] .shelf__name::before { content: "[ "; }
+body[data-skin="terminal"] .shelf__name::after { content: " ]"; }
+body[data-skin="terminal"] .shelf__count::before { content: "// "; }
+body[data-skin="terminal"] .shelf__chevron { color: var(--accent); }
+body[data-skin="terminal"] .shelf__books { padding-inline: 0; }
+body[data-skin="terminal"] .shelf__board {
+  margin-top: calc(18px * var(--k)); border-radius: 0; box-shadow: none;
+  background: repeating-linear-gradient(90deg, var(--line) 0 6px, transparent 6px 12px);
+}
+body[data-skin="terminal"] .book__inner {
+  padding: calc(7px * var(--k)); border: 1px solid var(--line); border-radius: 0;
+  background: var(--surface); box-shadow: none;
+}
+body[data-skin="terminal"] .book:hover .book__inner {
+  border-color: var(--accent); box-shadow: 0 0 0 1px rgba(121, 245, 162, .3), 0 0 22px rgba(121, 245, 162, .13);
+}
+body[data-skin="terminal"] .cover { border-radius: 0; border-color: var(--line); }
+body[data-skin="terminal"] .cover__img,
+body[data-skin="terminal"] .cover__frame iframe { filter: saturate(.72) contrast(1.08) brightness(.9); }
+body[data-skin="terminal"] .cover__fallback { background: linear-gradient(145deg, #12291a, #0a1a10); color: #79f5a2; }
+body[data-skin="terminal"] .cover__loading { background-image: linear-gradient(100deg, transparent 20%, rgba(121, 245, 162, .09) 50%, transparent 80%); }
+body[data-skin="terminal"] .book__title { font-size: calc(12.5px * var(--k)); }
+body[data-skin="terminal"] .book__url { color: var(--accent); }
+body[data-skin="terminal"] .book__url::before { content: "↳ "; }
+body[data-skin="terminal"] .book__tag { border: 1px solid var(--line); border-radius: 0; background: transparent; }
+body[data-skin="terminal"] .book__tag::before { content: "#"; }
+body[data-skin="terminal"] .modal { border-radius: 0; background: #0e1811; }
+body[data-skin="terminal"] .modal::backdrop { background: rgba(2, 8, 4, .8); }
+body[data-skin="terminal"] .field input, body[data-skin="terminal"] .field select, body[data-skin="terminal"] .field textarea { border-radius: 0; }
+body[data-skin="terminal"] .toast { border: 1px solid var(--accent); border-radius: 0; background: #0e1811; color: var(--accent); }
+body[data-skin="terminal"] .footer { border-top: 1px dashed var(--line); }
+body[data-skin="terminal"] .shelf:not(.is-collapsed):has(.book)::after { font-family: var(--mono); letter-spacing: .16em; color: rgba(121, 245, 162, .1); }
+body[data-skin="terminal"] .editbar { border-radius: 0; background: var(--accent-soft); }
+
+/* ---------- 小屏：去掉各皮肤在窄屏下的额外装饰 ---------- */
+@media (max-width: 620px) {
+  body[data-skin="editorial"] .cabinet { border-left: 0; border-right: 0; }
+  body[data-skin="editorial"] .shelf__head::before { display: none; }
+  body[data-skin="editorial"] .brand h1 { font-size: 21px; }
+  body[data-skin="terminal"] .brand h1 { font-size: 17px; }
+}

@@ -1,0 +1,11 @@
+# WorkBuddy 本地项目数据，不进公开仓库
+.workbuddy/
+
+# 系统 / 编辑器杂项
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Python
+__pycache__/
+*.py[cod]

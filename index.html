@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="一个把在线网页收进书架的个人网址汇聚站">
+<meta name="color-scheme" content="light dark">
+<title>我的在线书架</title>
+<link rel="stylesheet" href="assets/app.css">
+<link rel="stylesheet" href="assets/skins.css">
+</head>
+<body data-theme="light" data-skin="gallery">
+<script>
+  /* 首屏防闪：?skin= 网址参数 / 本机偏好优先于 HTML 上的站点默认皮肤。
+     data.json 里的默认皮肤由 tools/sync-seed.py 写入 body[data-skin]。 */
+  (function () {
+    var ok = ['wood', 'gallery', 'glass', 'editorial', 'terminal'];
+    var q = new URLSearchParams(location.search).get('skin');
+    var s = ok.indexOf(q) >= 0 ? q : null;
+    if (!s) {
+      try { s = (JSON.parse(localStorage.getItem('onlineshelf:prefs:v1') || '{}') || {}).skin; } catch (e) { s = null; }
+    }
+    if (ok.indexOf(s) >= 0) document.body.dataset.skin = s;
+  })();
+</script>
+
+<svg class="sprite" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/><circle cx="9" cy="7" r="2"/><circle cx="15" cy="12" r="2"/><circle cx="8" cy="17" r="2"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12m0 0-4-4m4 4 4-4M4 17v3h16v-3"/></symbol>
+  <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 17V5m0 0L8 9m4-4 4 4M4 17v3h16v-3"/></symbol>
+  <symbol id="i-cloud" viewBox="0 0 24 24"><path d="M7 18h10a4 4 0 0 0 .6-7.95A6 6 0 0 0 6 9.2 4.5 4.5 0 0 0 7 18z"/><path d="M12 21v-8m0 0-3 3m3-3 3 3"/></symbol>
+  <symbol id="i-pencil" viewBox="0 0 24 24"><path d="M4 20h4L18 10l-4-4L4 16v4zM13 7l4 4"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13M10 11v6M14 11v6"/></symbol>
+  <symbol id="i-external" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M19 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5"/></symbol>
+  <symbol id="i-chevron" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></symbol>
+  <symbol id="i-grip" viewBox="0 0 24 24"><circle cx="9" cy="6" r="1.2"/><circle cx="15" cy="6" r="1.2"/><circle cx="9" cy="12" r="1.2"/><circle cx="15" cy="12" r="1.2"/><circle cx="9" cy="18" r="1.2"/><circle cx="15" cy="18" r="1.2"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5 21 21"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+  <symbol id="i-left" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></symbol>
+  <symbol id="i-right" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></symbol>
+  <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 7h6l2 2h10v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7z"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.4-5.7M20 4v5h-5"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M19 5l-1.5 1.5M6.5 17.5 5 19"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14A8 8 0 0 1 10 4a8 8 0 1 0 10 10z"/></symbol>
+  <symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8.5" cy="9.5" r="1.5"/><path d="M4 18l5-5 3 3 3-4 5 6"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M5 4h13v16H6a2 2 0 0 1-2-2V5a1 1 0 0 1 1-1zM4 17h14M9 8h5"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.6-6 10-6 10 6 10 6-3.6 6-10 6-10-6-10-6z"/><circle cx="12" cy="12" r="2.5"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/></symbol>
+  <symbol id="i-palette" viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 0 18h1.2a2 2 0 0 0 1.5-3.3 1.8 1.8 0 0 1 1.4-3H18a3 3 0 0 0 3-3 9 9 0 0 0-9-8.7z"/><circle cx="7.5" cy="11" r="1"/><circle cx="10" cy="7.5" r="1"/><circle cx="14.5" cy="7.5" r="1"/><circle cx="17.5" cy="11" r="1"/></symbol>
+</svg>
+
+<header class="topbar">
+  <div class="wrap topbar__in">
+    <div class="brand">
+      <span class="brand__mark"><svg class="ic"><use href="#i-book"/></svg></span>
+      <div class="brand__text">
+        <p class="brand__eyebrow">ONLINE SHELF <span class="brand__dot"></span> 网址汇聚站</p>
+        <h1 id="siteTitle">我的在线书架</h1>
+        <p class="brand__sub" id="siteSubtitle">把做过的、用过的、收藏过的网页，一本本摆上架子</p>
+      </div>
+    </div>
+
+    <div class="topbar__actions">
+      <label class="search" for="searchInput">
+        <svg class="ic"><use href="#i-search"/></svg>
+        <input id="searchInput" type="search" autocomplete="off" placeholder="搜索名称、网址、标签" aria-label="搜索书架">
+        <button type="button" id="searchClear" class="search__clear" aria-label="清除搜索" hidden><svg class="ic"><use href="#i-close"/></svg></button>
+      </label>
+      <button type="button" class="btn btn--icon" id="btnTheme" title="切换明暗外观" aria-label="切换明暗外观"><svg class="ic"><use href="#i-sun"/></svg></button>
+      <button type="button" class="btn btn--primary" id="btnEdit"><svg class="ic"><use href="#i-sliders"/></svg><span>管理书架</span></button>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div id="notice" class="notice" hidden></div>
+
+  <main>
+    <div class="meta">
+      <div class="meta__stats" id="stats"></div>
+      <div class="meta__right">
+        <span class="wide-badge" id="wideBadge">宽屏排布</span>
+        <label class="density" for="skinSel" title="外观风格：只影响当前浏览器，不写入 data.json">
+          <svg class="ic"><use href="#i-palette"/></svg><span class="density__label">风格</span>
+          <select id="skinSel" aria-label="外观风格">
+            <option value="auto">跟随站点</option>
+            <option value="wood">实木书架</option>
+            <option value="gallery">极简画廊</option>
+            <option value="glass">暗夜玻璃</option>
+            <option value="editorial">杂志纸刊</option>
+            <option value="terminal">复古终端</option>
+          </select>
+        </label>
+        <label class="density" for="densitySel" title="显示密度：只影响当前浏览器，不写入 data.json">
+          <svg class="ic"><use href="#i-grid"/></svg><span class="density__label">密度</span>
+          <select id="densitySel" aria-label="显示密度">
+            <option value="auto">自动</option>
+            <option value="compact">紧凑</option>
+            <option value="large">大图</option>
+            <option value="xl">超大</option>
+          </select>
+        </label>
+        <span class="draft-badge" id="draftBadge" hidden><span class="draft-badge__dot"></span>本机草稿尚未发布</span>
+        <span class="meta__hint" id="metaHint">点击封面即可打开网页</span>
+      </div>
+    </div>
+
+    <div class="editbar" id="editbar" hidden>
+      <div class="editbar__left">
+        <span class="editbar__label"><svg class="ic"><use href="#i-pencil"/></svg>编辑模式</span>
+        <button type="button" class="btn btn--sm" data-act="add-item"><svg class="ic"><use href="#i-plus"/></svg>添加网页</button>
+        <button type="button" class="btn btn--sm" data-act="add-group"><svg class="ic"><use href="#i-folder"/></svg>新建分组</button>
+        <button type="button" class="btn btn--sm" data-act="expand-all"><svg class="ic"><use href="#i-eye"/></svg>全部展开</button>
+      </div>
+      <div class="editbar__right">
+        <button type="button" class="btn btn--sm" data-act="refresh-shots" title="重新抓取全部预览图"><svg class="ic"><use href="#i-refresh"/></svg>刷新预览</button>
+        <button type="button" class="btn btn--sm" data-act="settings" title="标题、截图服务与更新频率"><svg class="ic"><use href="#i-info"/></svg>站点设置</button>
+        <button type="button" class="btn btn--sm" data-act="import"><svg class="ic"><use href="#i-upload"/></svg>导入</button>
+        <button type="button" class="btn btn--sm" data-act="export"><svg class="ic"><use href="#i-download"/></svg>导出 data.json</button>
+        <button type="button" class="btn btn--sm btn--accent" data-act="github"><svg class="ic"><use href="#i-cloud"/></svg>发布到 GitHub</button>
+        <button type="button" class="btn btn--sm" data-act="exit-edit"><svg class="ic"><use href="#i-close"/></svg>退出编辑</button>
+      </div>
+    </div>
+
+    <div class="cabinet" id="shelves" aria-live="polite"></div>
+  </main>
+
+  <footer class="footer">
+    <p>预览图由截图服务实时生成，点击卡片跳转到目标网页 · 本站为纯静态页面，无后端、无追踪</p>
+    <p id="footerStat"></p>
+  </footer>
+</div>
+
+<dialog id="modal" class="modal" aria-labelledby="modalTitle">
+  <form id="modalForm" novalidate>
+    <div class="modal__head">
+      <h2 id="modalTitle">标题</h2>
+      <button type="button" class="btn btn--icon" data-act="close-modal" aria-label="关闭"><svg class="ic"><use href="#i-close"/></svg></button>
+    </div>
+    <div class="modal__body" id="modalBody"></div>
+    <div class="modal__foot" id="modalFoot"></div>
+  </form>
+</dialog>
+
+<input type="file" id="fileInput" accept=".json,application/json" hidden>
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+<script type="application/json" id="seed">{"version":1,"updatedAt":"2026-11-14T10:00:00.000Z","settings":{"title":"我的在线书架","subtitle":"把做过的、用过的、收藏过的网页，一本本摆上架子","owner":"","screenshotService":"microlink","refresh":"daily","skin":"gallery","note":"预览图由截图服务实时生成，点击卡片跳转到目标网页"},"groups":[{"id":"g-tools","name":"常用工具","collapsed":false,"items":[{"id":"i-excalidraw","title":"Excalidraw 手绘白板","url":"https://excalidraw.com","desc":"打开就能画的在线白板，随手理思路、画流程图","tags":["白板","画图"],"mode":"auto","thumb":"","addedAt":"2026-11-14"},{"id":"i-fonts","title":"Google Fonts","url":"https://fonts.google.com","desc":"免费可商用的 Web 字体库，挑字体、配字形都在这里","tags":["字体","设计"],"mode":"auto","thumb":"","addedAt":"2026-11-14"},{"id":"i-coolors","title":"Coolors 配色生成器","url":"https://coolors.co","desc":"按一下空格换一套配色，也能锁定单色继续调","tags":["配色","设计"],"mode":"auto","thumb":"","addedAt":"2026-11-14"}]},{"id":"g-ai","name":"AI 与模型评测","collapsed":false,"items":[{"id":"i-lmarena","title":"LMArena 竞技场","url":"https://lmarena.ai","desc":"人类盲投 pairwise 投票产出的模型排行榜，可看分域排名","tags":["大模型","榜单","chat"],"mode":"auto","thumb":"","addedAt":"2026-11-14"},{"id":"i-aa","title":"Artificial Analysis","url":"https://artificialanalysis.ai","desc":"按质量、速度、价格三维横评模型，智能指数与成本曲线好用","tags":["大模型","榜单","速度"],"mode":"auto","thumb":"","addedAt":"2026-11-14"},{"id":"i-livebench","title":"LiveBench","url":"https://livebench.ai","desc":"用持续更新的题目防污染，考察推理、数学、编程与数据分析","tags":["大模型","榜单","agent"],"mode":"auto","thumb":"","addedAt":"2026-11-14"}]},{"id":"g-dev","name":"开发文档","collapsed":false,"items":[{"id":"i-mdn","title":"MDN Web Docs","url":"https://developer.mozilla.org","desc":"HTML / CSS / JavaScript 的权威参考与教程","tags":["前端","文档"],"mode":"auto","thumb":"","addedAt":"2026-11-14"},{"id":"i-github","title":"GitHub","url":"https://github.com","desc":"代码仓库与 Pages 托管，本站就住在上面","tags":["代码","托管"],"mode":"auto","thumb":"","addedAt":"2026-11-14"}]},{"id":"g-works","name":"作品与项目","collapsed":false,"items":[]}]}</script>
+<script src="assets/app.js" defer></script>
+</body>
+</html>
