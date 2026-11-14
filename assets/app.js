@@ -13,7 +13,8 @@
   // 依次回退：Microlink 实时截图 → mshots 缓存图 → thum.io → 域名封面
   const SERVICES = ['microlink', 'mshots', 'thumio'];
   const DENSITY = ['auto', 'compact', 'large', 'xl'];
-  const DENSITY_LABEL = { auto: '自动', compact: '紧凑', large: '大图', xl: '超大' };
+  const DENSITY_CHOICES = ['site'].concat(DENSITY); // site = 跟随 data.json 里的站点默认
+  const DENSITY_LABEL = { site: '跟随站点', auto: '自动分档', compact: '紧凑', large: '大图', xl: '超大' };
   // 皮肤：wood 为原版，其余为可选外观；auto 表示「跟随 data.json 里的站点默认」
   const SKINS = ['wood', 'gallery', 'glass', 'editorial', 'terminal'];
   const SKIN_CHOICES = ['auto'].concat(SKINS);
@@ -110,8 +111,9 @@
     needNotice: '',
     shotBust: 0,
     sortableReady: false,
-    prefs: { theme: 'light', density: 'auto', skin: 'auto', collapsed: {} },
+    prefs: { theme: 'light', density: 'site', skin: 'auto', collapsed: {} },
     urlSkin: '',
+    urlDensity: '',
     // 默认指向本站仓库；用户若勾选「记住」会由 localStorage 里的 K_GH 覆盖
     gh: { owner: 'Lavie-purple', repo: 'my-web-shelf', branch: 'main', path: 'data.json', token: '' }
   };
@@ -146,6 +148,7 @@
       screenshotService: SERVICES.includes(st.screenshotService) ? st.screenshotService : 'thumio',
       refresh: ['always', 'hourly', 'daily', 'weekly', 'never'].includes(st.refresh) ? st.refresh : 'daily',
       skin: SKINS.includes(st.skin) ? st.skin : 'wood',
+      density: DENSITY.includes(st.density) ? st.density : 'auto',
       note: String(st.note || '')
     };
     const seen = new Set();
@@ -592,6 +595,12 @@
         </select>
         <span class="field__hint">发布后所有访客默认看到这套外观。访客仍可在统计行自行切换，只影响他自己的浏览器。改完请发布 data.json，并跑一次 tools/sync-seed.py 同步首屏皮肤</span>
       </div>
+      <div class="field"><label for="s-density">站点默认密度</label>
+        <select id="s-density" name="density">
+          ${DENSITY.map(k => `<option value="${k}" ${st.density === k ? 'selected' : ''}>${DENSITY_LABEL[k]}</option>`).join('')}
+        </select>
+        <span class="field__hint">所有访客首次打开时的默认密度，当前为「紧凑」。访客仍可在统计行自行切换；改完请发布 data.json，并跑一次 tools/sync-seed.py 同步首屏</span>
+      </div>
       <div class="field-row">
         <div class="field"><label for="s-service">首选截图服务</label><select id="s-service" name="service">
           <option value="microlink" ${st.screenshotService === 'microlink' ? 'selected' : ''}>Microlink（推荐，实时清晰，有免费额度）</option>
@@ -616,7 +625,8 @@
         S.data.settings.screenshotService = v(form, 'service');
         S.data.settings.refresh = v(form, 'refresh');
         S.data.settings.skin = SKINS.includes(v(form, 'skin')) ? v(form, 'skin') : 'wood';
-        persist(false); closeModal(); applySkin(); render();
+        S.data.settings.density = DENSITY.includes(v(form, 'density')) ? v(form, 'density') : 'auto';
+        persist(false); closeModal(); applySkin(); applyDensity(); render();
         toast('设置已保存，记得发布 data.json');
       }
     });
@@ -900,7 +910,17 @@
       toast('外观风格：' + SKIN_LABEL[S.prefs.skin] + '（只影响当前浏览器）');
     });
     $('#densitySel').addEventListener('change', e => {
-      S.prefs.density = DENSITY.includes(e.target.value) ? e.target.value : 'auto';
+      S.prefs.density = DENSITY_CHOICES.includes(e.target.value) ? e.target.value : 'site';
+      S.prefs.densitySet = true;
+      // 带 ?density= 打开时，下拉选择要清掉网址参数，否则会被参数一直压住
+      if (S.urlDensity) {
+        S.urlDensity = '';
+        try {
+          const u = new URL(location.href);
+          u.searchParams.delete('density');
+          history.replaceState(null, '', u.pathname + u.search + u.hash);
+        } catch (err) { /* file:// 下不支持时忽略 */ }
+      }
       savePrefs(); applyDensity();
       // 重建卡片：让封面按新尺寸重新取图，并让 iframe 预览重新计算缩放
       if (S.data) render();
@@ -961,14 +981,24 @@
     }
   }
   function currentDensity() {
-    return DENSITY.includes(S.prefs && S.prefs.density) ? S.prefs.density : 'auto';
+    // ?density= > 访客本机选择 > data.json 里的站点默认 > 自动分档
+    if (DENSITY.includes(S.urlDensity)) return S.urlDensity;
+    const p = S.prefs && S.prefs.density;
+    if (DENSITY.includes(p)) return p;
+    const def = S.data && S.data.settings && S.data.settings.density;
+    return DENSITY.includes(def) ? def : 'auto';
   }
   function applyDensity() {
     const d = currentDensity();
     if (d === 'auto') delete document.documentElement.dataset.density;
     else document.documentElement.dataset.density = d;
     const sel = $('#densitySel');
-    if (sel) sel.value = d;
+    if (sel) {
+      sel.value = DENSITY_CHOICES.includes(S.prefs.density) ? S.prefs.density : 'site';
+      sel.title = S.urlDensity
+        ? '当前密度由网址参数 ?density=' + S.urlDensity + ' 指定；在这里选一档即可清除该参数'
+        : '显示密度：只影响当前浏览器，不写入 data.json';
+    }
     updateWideBadge();
   }
   function updateWideBadge() {
@@ -979,11 +1009,14 @@
 
   /* ---------------- 启动 ---------------- */
   async function boot() {
-    S.prefs = Object.assign({ theme: 'light', density: 'auto', skin: 'auto', collapsed: {} }, jsonGet(K_PREFS) || {});
+    S.prefs = Object.assign({ theme: 'light', density: 'site', skin: 'auto', collapsed: {} }, jsonGet(K_PREFS) || {});
     if (!S.prefs.collapsed || typeof S.prefs.collapsed !== 'object') S.prefs.collapsed = {};
+    // 旧版把 'auto' 当默认值存进过 localStorage；升级到「站点默认密度」后统一视为「跟随站点」，
+    // 否则老访客会一直卡在自动分档，看不到新的紧凑默认
+    if (!S.prefs.densitySet && S.prefs.density === 'auto') S.prefs.density = 'site';
     // 可选：?density=large 直接以指定密度打开，适合把某个视图存成书签 / 投屏
     const qs = new URLSearchParams(location.search);
-    if (DENSITY.includes(qs.get('density'))) S.prefs.density = qs.get('density');
+    if (DENSITY.includes(qs.get('density'))) S.urlDensity = qs.get('density');
     // ?skin=gallery 可直接预览某一套外观，不写入本机偏好
     if (SKINS.includes(qs.get('skin'))) S.urlSkin = qs.get('skin');
     // 只让非空的已保存字段覆盖预填值，避免旧草稿里的空串把仓库名抹掉

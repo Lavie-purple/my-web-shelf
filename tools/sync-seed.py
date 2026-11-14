@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
-"""把 data.json 同步进 index.html 的内嵌 seed 块 + 首屏默认皮肤。
+"""把 data.json 同步进 index.html 的内嵌 seed 块 + 首屏默认皮肤 / 密度。
 
 线上（GitHub Pages）永远以 data.json 为准；内嵌 seed 只在用 file://
 直接双击 index.html 时兜底。改完 data.json 跑一次这个脚本，
 本地双击预览就能看到同样的内容。
 
-同时把 settings.skin 写进 <body data-skin="...">，让站点默认外观在
-JS 加载前就生效，避免访客首屏闪一下旧皮肤。
+同时把 settings.skin 写进 <body data-skin="...">、settings.density 写进
+<html data-density="...">，让站点默认外观与密度在 JS 加载前就生效，
+避免访客首屏闪一下旧样式。
 """
 import json
 import re
@@ -49,10 +50,24 @@ def main():
     if skin_count != 1:
         sys.exit("没在 index.html 的 <body> 上找到 data-skin 属性")
 
+    density = obj.get("settings", {}).get("density", "auto")
+    if density not in ("auto", "compact", "large", "xl"):
+        density = "auto"
+    new, density_count = re.subn(
+        r'(<html\b[^>]*\bdata-density=")[^"]*(")',
+        lambda m: m.group(1) + density + m.group(2),
+        new,
+        count=1,
+        flags=re.S | re.I,
+    )
+    if density_count != 1:
+        sys.exit("没在 index.html 的 <html> 上找到 data-density 属性")
+
     HTML.write_text(new, encoding="utf-8")
     total = sum(len(g.get("items", [])) for g in obj.get("groups", []))
     print(f"已同步：{len(obj.get('groups', []))} 个分组 / {total} 个网页 → index.html 内嵌 seed")
     print(f"首屏默认外观：{skin} → <body data-skin=\"{skin}\">")
+    print(f"首屏默认密度：{density} → <html data-density=\"{density}\">")
 
 
 if __name__ == "__main__":

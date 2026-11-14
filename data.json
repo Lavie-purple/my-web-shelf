@@ -8,6 +8,7 @@
     "screenshotService": "microlink",
     "refresh": "daily",
     "skin": "gallery",
+    "density": "compact",
     "note": "预览图由截图服务实时生成，点击卡片跳转到目标网页"
   },
   "groups": [
