@@ -31,7 +31,7 @@
 
 如果你是 fork 后重新部署，照这三步走：
 
-1. 在 GitHub 新建仓库 **`my-web-shelf`**，可见性选 **Public**（私有仓库的 Pages 需要付费套餐）。**不要勾选** *Add a README* / *.gitignore* / *license* —— 本地已经有这两个文件，勾了会和首次上传冲突。
+1. 在 GitHub 新建仓库 **`my-web-shelf`**，可见性选 **Public**（私有仓库的 Pages 需要付费套餐）。**不要勾选** *Add a README* / *.gitignore* / *license* —— 本地已有 README 和 `.gitignore`，勾了会和首次上传冲突。
 2. 按下面的目录结构上传文件（`assets/` 必须是仓库根目录下的文件夹）。本地已有 git 仓库时，直接推上去最省事：
    ```bash
    git remote add origin https://github.com/你的用户名/my-web-shelf.git
@@ -55,10 +55,12 @@ my-web-shelf/
 │   ├── preview.jpg         # 可选：仅本 README 的预览图
 │   └── skins/*.jpg         # 可选：styles.html 用的五张风格截图
 ├── tools/sync-seed.py      # 可选：同步 data.json 与首屏默认皮肤
+├── .nojekyll               # 可选：告诉 Pages 不要跑 Jekyll，避免下划线开头的文件被忽略
+├── .gitignore              # 可选：排除本机项目数据
 └── README.md               # 本说明，建议上传（GitHub 仓库首页会展示）
 ```
 
-> **最小上线需要 5 个文件**：`index.html`、`assets/app.css`、`assets/app.js`、`assets/skins.css`、`data.json`（`skins.css` 不能漏，漏了会退回原版木质样式）。`README.md`、`styles.html`、`docs/`、`tools/` 都不影响站点运行；如果传了 `README.md`，记得把 `docs/preview.jpg` 一起传；传了 `styles.html` 就一起传 `docs/skins/`。
+> **最小上线需要 5 个文件**：`index.html`、`assets/app.css`、`assets/app.js`、`assets/skins.css`、`data.json`（`skins.css` 不能漏，漏了会退回原版木质样式）。`README.md`、`styles.html`、`docs/`、`tools/`、`.nojekyll`、`.gitignore` 都不影响站点运行；如果传了 `README.md`，记得把 `docs/preview.jpg` 一起传；传了 `styles.html` 就一起传 `docs/skins/`。`.nojekyll` 建议带上，它让 Pages 跳过 Jekyll 处理。
 
 想用自己的域名：在 Pages 设置里填 Custom domain，并在仓库根目录放一个 `CNAME` 文件。
 
