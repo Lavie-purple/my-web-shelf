@@ -410,10 +410,12 @@ body[data-theme="dark"] .cover__loading { background-image: linear-gradient(100d
 }
 
 .book__meta { padding: calc(9px * var(--k)) calc(3px * var(--k)) 0; }
-.book__title { margin: 0 0 3px; font-size: calc(13.5px * var(--k)); font-weight: 700; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+/* 卡片等高：标题 / 网址 / 说明 / 标签一律单行，高度不再随文本长度变化。
+   完整内容由 app.js 写入 title 属性，鼠标悬停可看全文 */
+.book__title { margin: 0 0 3px; font-size: calc(13.5px * var(--k)); font-weight: 700; line-height: 1.4; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-height: 1.4em; }
 .book__url { margin: 0 0 5px; font-size: calc(10.5px * var(--k)); color: var(--accent); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.book__desc { margin: 0; font-size: calc(11px * var(--k)); line-height: 1.55; color: var(--ink-2); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; min-height: calc(17px * var(--k)); }
-.book__tags { display: flex; gap: calc(4px * var(--k)); flex-wrap: wrap; margin-top: calc(7px * var(--k)); }
+.book__desc { margin: 0; font-size: calc(11px * var(--k)); line-height: 1.55; color: var(--ink-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-height: 1.55em; }
+.book__tags { display: flex; gap: calc(4px * var(--k)); flex-wrap: nowrap; overflow: hidden; margin-top: calc(7px * var(--k)); min-height: calc(18px * var(--k)); }
 .book__tag { padding: calc(1px * var(--k)) calc(6px * var(--k)); border-radius: calc(4px * var(--k)); background: var(--surface-2); color: var(--muted); font-size: calc(10px * var(--k)); }
 
 .book__tools {

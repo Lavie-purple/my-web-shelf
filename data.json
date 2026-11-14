@@ -78,7 +78,7 @@
           "id": "i-llm-radar",
           "title": "四源 LLM 评测聚合看板",
           "url": "https://lavie-purple.github.io/llm-radar/",
-          "desc": "四大评测源并排对照，只看源内名次与跨源分歧",
+          "desc": "四源并排对照，不合成总分",
           "tags": ["大模型", "评测", "榜单"],
           "mode": "auto",
           "thumb": "",

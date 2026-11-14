@@ -299,10 +299,10 @@
       <div class="book__inner">
         <div class="cover">${previewHTML(it)}</div>
         <div class="book__meta">
-          <h3 class="book__title">${esc(it.title)}</h3>
-          <p class="book__url">${esc(host || it.url || '未设置网址')}${it.url ? ' ›' : ''}</p>
-          <p class="book__desc">${esc(it.desc)}</p>
-          ${it.tags.length ? `<div class="book__tags">${it.tags.map(t => `<span class="book__tag">${esc(t)}</span>`).join('')}</div>` : ''}
+          <h3 class="book__title" title="${attr(it.title)}">${esc(it.title)}</h3>
+          <p class="book__url" title="${attr(it.url || '')}">${esc(host || it.url || '未设置网址')}${it.url ? ' ›' : ''}</p>
+          <p class="book__desc" title="${attr(it.desc || '')}">${esc(it.desc)}</p>
+          <div class="book__tags">${it.tags.map(t => `<span class="book__tag">${esc(t)}</span>`).join('')}</div>
         </div>
       </div>
     </article>`;
