@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-14T13:40:08.000Z",
+  "updatedAt": "2026-11-14T14:31:13.964Z",
   "settings": {
     "title": "我的在线书架",
     "subtitle": "把做过的、用过的、收藏过的网页，一本本摆上架子",
@@ -14,25 +14,19 @@
   "groups": [
     {
       "id": "g-pricing",
-      "name": "资费与权益",
+      "name": "AI发布 免费 评测 价格 资费",
       "collapsed": false,
       "items": [
         {
-          "id": "i-token-prices",
-          "title": "大模型 Token 价格汇总",
-          "url": "https://lavie-purple.github.io/Token-prices/",
-          "desc": "各家大模型 Token 资费汇总与对比",
-          "tags": ["大模型", "价格", "资费"],
-          "mode": "auto",
-          "thumb": "",
-          "addedAt": "2026-11-14"
-        },
-        {
-          "id": "i-coding-plan",
-          "title": "AI Coding Plan 资费汇总",
-          "url": "https://lavie-purple.github.io/ai-coding-plan-compare/",
-          "desc": "AI 编程订阅套餐资费对比",
-          "tags": ["编程", "套餐", "资费"],
+          "id": "i-ai-news",
+          "title": "AI 项目情报站",
+          "url": "https://lavie-purple.github.io/Ai-news/",
+          "desc": "AI 情报与历史报告",
+          "tags": [
+            "情报",
+            "资讯",
+            "AI"
+          ],
           "mode": "auto",
           "thumb": "",
           "addedAt": "2026-11-14"
@@ -42,7 +36,53 @@
           "title": "AI 免费内容与权益速递",
           "url": "https://lavie-purple.github.io/ai-free-content-digest/",
           "desc": "AI 免费额度与权益速查",
-          "tags": ["免费", "权益", "速查"],
+          "tags": [
+            "免费",
+            "权益",
+            "速查"
+          ],
+          "mode": "auto",
+          "thumb": "",
+          "addedAt": "2026-11-14"
+        },
+        {
+          "id": "i-llm-radar",
+          "title": "四源 LLM 评测聚合看板",
+          "url": "https://lavie-purple.github.io/llm-radar/",
+          "desc": "四大评测源并排对照，只看源内名次与跨源分歧",
+          "tags": [
+            "大模型",
+            "评测",
+            "榜单"
+          ],
+          "mode": "auto",
+          "thumb": "",
+          "addedAt": "2026-11-14"
+        },
+        {
+          "id": "i-token-prices",
+          "title": "大模型 Token 价格汇总",
+          "url": "https://lavie-purple.github.io/Token-prices/",
+          "desc": "各家大模型 Token 资费汇总与对比",
+          "tags": [
+            "大模型",
+            "价格",
+            "资费"
+          ],
+          "mode": "auto",
+          "thumb": "",
+          "addedAt": "2026-11-14"
+        },
+        {
+          "id": "i-coding-plan",
+          "title": "AI Coding Plan 资费汇总",
+          "url": "https://lavie-purple.github.io/ai-coding-plan-compare/",
+          "desc": "AI 编程订阅套餐资费对比",
+          "tags": [
+            "编程",
+            "套餐",
+            "资费"
+          ],
           "mode": "auto",
           "thumb": "",
           "addedAt": "2026-11-14"
@@ -59,27 +99,11 @@
           "title": "行业地图",
           "url": "https://lavie-purple.github.io/Industry-map/",
           "desc": "AI 产业全景地图",
-          "tags": ["行业", "地图", "AI"],
-          "mode": "auto",
-          "thumb": "",
-          "addedAt": "2026-11-14"
-        },
-        {
-          "id": "i-ai-news",
-          "title": "AI 项目情报站",
-          "url": "https://lavie-purple.github.io/Ai-news/",
-          "desc": "AI 情报与历史报告",
-          "tags": ["情报", "资讯", "AI"],
-          "mode": "auto",
-          "thumb": "",
-          "addedAt": "2026-11-14"
-        },
-        {
-          "id": "i-llm-radar",
-          "title": "四源 LLM 评测聚合看板",
-          "url": "https://lavie-purple.github.io/llm-radar/",
-          "desc": "四源并排对照，不合成总分",
-          "tags": ["大模型", "评测", "榜单"],
+          "tags": [
+            "行业",
+            "地图",
+            "AI"
+          ],
           "mode": "auto",
           "thumb": "",
           "addedAt": "2026-11-14"
@@ -89,14 +113,18 @@
     {
       "id": "g-apps",
       "name": "AI 应用",
-      "collapsed": false,
+      "collapsed": true,
       "items": [
         {
           "id": "i-wanderplan",
           "title": "AI 旅行规划助手",
           "url": "https://lavie-purple.github.io/Wanderplan/",
           "desc": "用 AI 规划旅行行程",
-          "tags": ["旅行", "工具", "AI"],
+          "tags": [
+            "旅行",
+            "工具",
+            "AI"
+          ],
           "mode": "auto",
           "thumb": "",
           "addedAt": "2026-11-14"
