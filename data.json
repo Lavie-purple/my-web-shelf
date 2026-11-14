@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-14T10:00:00.000Z",
+  "updatedAt": "2026-11-14T13:40:08.000Z",
   "settings": {
     "title": "我的在线书架",
     "subtitle": "把做过的、用过的、收藏过的网页，一本本摆上架子",
@@ -13,36 +13,36 @@
   },
   "groups": [
     {
-      "id": "g-tools",
-      "name": "常用工具",
+      "id": "g-pricing",
+      "name": "资费与权益",
       "collapsed": false,
       "items": [
         {
-          "id": "i-excalidraw",
-          "title": "Excalidraw 手绘白板",
-          "url": "https://excalidraw.com",
-          "desc": "打开就能画的在线白板，随手理思路、画流程图",
-          "tags": ["白板", "画图"],
+          "id": "i-token-prices",
+          "title": "大模型 Token 价格汇总",
+          "url": "https://lavie-purple.github.io/Token-prices/",
+          "desc": "各家大模型 Token 资费汇总与对比",
+          "tags": ["大模型", "价格", "资费"],
           "mode": "auto",
           "thumb": "",
           "addedAt": "2026-11-14"
         },
         {
-          "id": "i-fonts",
-          "title": "Google Fonts",
-          "url": "https://fonts.google.com",
-          "desc": "免费可商用的 Web 字体库，挑字体、配字形都在这里",
-          "tags": ["字体", "设计"],
+          "id": "i-coding-plan",
+          "title": "AI Coding Plan 资费汇总",
+          "url": "https://lavie-purple.github.io/ai-coding-plan-compare/",
+          "desc": "AI 编程订阅套餐资费对比",
+          "tags": ["编程", "套餐", "资费"],
           "mode": "auto",
           "thumb": "",
           "addedAt": "2026-11-14"
         },
         {
-          "id": "i-coolors",
-          "title": "Coolors 配色生成器",
-          "url": "https://coolors.co",
-          "desc": "按一下空格换一套配色，也能锁定单色继续调",
-          "tags": ["配色", "设计"],
+          "id": "i-free-digest",
+          "title": "AI 免费内容与权益速递",
+          "url": "https://lavie-purple.github.io/ai-free-content-digest/",
+          "desc": "AI 免费额度与权益速查",
+          "tags": ["免费", "权益", "速查"],
           "mode": "auto",
           "thumb": "",
           "addedAt": "2026-11-14"
@@ -50,36 +50,36 @@
       ]
     },
     {
-      "id": "g-ai",
-      "name": "AI 与模型评测",
+      "id": "g-intel",
+      "name": "行业与评测",
       "collapsed": false,
       "items": [
         {
-          "id": "i-lmarena",
-          "title": "LMArena 竞技场",
-          "url": "https://lmarena.ai",
-          "desc": "人类盲投 pairwise 投票产出的模型排行榜，可看分域排名",
-          "tags": ["大模型", "榜单", "chat"],
+          "id": "i-industry-map",
+          "title": "行业地图",
+          "url": "https://lavie-purple.github.io/Industry-map/",
+          "desc": "AI 产业全景地图",
+          "tags": ["行业", "地图", "AI"],
           "mode": "auto",
           "thumb": "",
           "addedAt": "2026-11-14"
         },
         {
-          "id": "i-aa",
-          "title": "Artificial Analysis",
-          "url": "https://artificialanalysis.ai",
-          "desc": "按质量、速度、价格三维横评模型，智能指数与成本曲线好用",
-          "tags": ["大模型", "榜单", "速度"],
+          "id": "i-ai-news",
+          "title": "AI 项目情报站",
+          "url": "https://lavie-purple.github.io/Ai-news/",
+          "desc": "AI 情报与历史报告",
+          "tags": ["情报", "资讯", "AI"],
           "mode": "auto",
           "thumb": "",
           "addedAt": "2026-11-14"
         },
         {
-          "id": "i-livebench",
-          "title": "LiveBench",
-          "url": "https://livebench.ai",
-          "desc": "用持续更新的题目防污染，考察推理、数学、编程与数据分析",
-          "tags": ["大模型", "榜单", "agent"],
+          "id": "i-llm-radar",
+          "title": "四源 LLM 评测聚合看板",
+          "url": "https://lavie-purple.github.io/llm-radar/",
+          "desc": "四大评测源并排对照，只看源内名次与跨源分歧",
+          "tags": ["大模型", "评测", "榜单"],
           "mode": "auto",
           "thumb": "",
           "addedAt": "2026-11-14"
@@ -87,37 +87,21 @@
       ]
     },
     {
-      "id": "g-dev",
-      "name": "开发文档",
+      "id": "g-apps",
+      "name": "AI 应用",
       "collapsed": false,
       "items": [
         {
-          "id": "i-mdn",
-          "title": "MDN Web Docs",
-          "url": "https://developer.mozilla.org",
-          "desc": "HTML / CSS / JavaScript 的权威参考与教程",
-          "tags": ["前端", "文档"],
-          "mode": "auto",
-          "thumb": "",
-          "addedAt": "2026-11-14"
-        },
-        {
-          "id": "i-github",
-          "title": "GitHub",
-          "url": "https://github.com",
-          "desc": "代码仓库与 Pages 托管，本站就住在上面",
-          "tags": ["代码", "托管"],
+          "id": "i-wanderplan",
+          "title": "AI 旅行规划助手",
+          "url": "https://lavie-purple.github.io/Wanderplan/",
+          "desc": "用 AI 规划旅行行程",
+          "tags": ["旅行", "工具", "AI"],
           "mode": "auto",
           "thumb": "",
           "addedAt": "2026-11-14"
         }
       ]
-    },
-    {
-      "id": "g-works",
-      "name": "作品与项目",
-      "collapsed": false,
-      "items": []
     }
   ]
 }
